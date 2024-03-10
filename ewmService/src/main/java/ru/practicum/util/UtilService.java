@@ -56,8 +56,8 @@ public class UtilService {
 
                 for (StatsDtoForView statsDtoForView : stats) {
                     String[] statsFields = statsDtoForView.getUri().split("/");
-                    if (Long.valueOf(statsFields[2]) == ev.getId()) {
-                        ev.setViews(statsDtoForView.getHits().intValue());
+                    if (Integer.parseInt(statsFields[2]) == ev.getId()) {
+                        ev.setViews(statsDtoForView.getHits());
                         result.add(ev);
                     }
                 }
