@@ -1,5 +1,7 @@
 package ru.practicum.model;
 
+import lombok.*;
+
 import javax.persistence.Embeddable;
 
 @Getter

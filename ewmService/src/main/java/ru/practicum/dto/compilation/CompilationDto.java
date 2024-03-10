@@ -1,5 +1,6 @@
 package ru.practicum.dto.compilation;
 
+import lombok.*;
 import ru.practicum.dto.event.EventShortDto;
 import ru.practicum.validation.UpdateObject;
 

@@ -32,6 +32,6 @@ public class StatMapper {
         return new StatsDtoForView(
                 statDto.getApp(),
                 statDto.getUri(),
-                statDto.getHits());
+                (long) Math.toIntExact(statDto.getHits()));
     }
 }

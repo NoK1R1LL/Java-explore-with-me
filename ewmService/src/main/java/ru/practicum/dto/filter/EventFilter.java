@@ -1,5 +1,6 @@
 package ru.practicum.dto.filter;
 
+import lombok.*;
 import ru.practicum.model.EventState;
 
 import java.time.LocalDateTime;
