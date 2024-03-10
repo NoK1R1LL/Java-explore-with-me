@@ -13,7 +13,6 @@
         <module>dto</module>
         <module>service</module>
         <module>client</module>
-        <module>service</module>
     </modules>
 
     <artifactId>stats</artifactId>
