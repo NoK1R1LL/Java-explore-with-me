@@ -41,14 +41,18 @@ public class EventPrivateController {
     @PostMapping
     public ResponseEntity<?> addEvent(@PathVariable("userId") @Positive Long userId,
                                       @Validated(CreateObject.class) @RequestBody NewEventDto newEventDto) {
+
         if (newEventDto.getParticipantLimit() < 0) {
-            return ResponseEntity.badRequest().body("Значение participantLimit не может быть отрицательным.");
+            return ResponseEntity
+                    .badRequest()
+                    .body("Значение participantLimit не может быть отрицательным.");
         }
 
-        log.info("Добавление нового события. POST /users/{userId}/events userId={}, newEvent = {}.", userId, newEventDto);
+        log.info("Добавление нового события. POST /users/userId/events userId={}, newEvent = {}.", userId, newEventDto);
         EventFullDto event = eventService.create(userId, newEventDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(event);
     }
+
 
     @GetMapping("/{eventId}")
     @ResponseStatus(HttpStatus.OK)
