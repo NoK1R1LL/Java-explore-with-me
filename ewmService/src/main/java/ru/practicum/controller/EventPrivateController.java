@@ -3,6 +3,7 @@ package ru.practicum.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.dto.event.EventFullDto;
@@ -38,12 +39,15 @@ public class EventPrivateController {
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public EventFullDto addEvent(@PathVariable("userId") @Positive Long userId,
-                                 @Validated(CreateObject.class) @RequestBody NewEventDto newEventDto) {
+    public ResponseEntity<?> addEvent(@PathVariable("userId") @Positive Long userId,
+                                      @Validated(CreateObject.class) @RequestBody NewEventDto newEventDto) {
+        if (newEventDto.getParticipantLimit() < 0) {
+            return ResponseEntity.badRequest().body("Значение participantLimit не может быть отрицательным.");
+        }
 
-        log.info("Добавление нового события. POST /users/userId/events userId={}, newEvent = {}.", userId, newEventDto);
-        return eventService.create(userId, newEventDto);
+        log.info("Добавление нового события. POST /users/{userId}/events userId={}, newEvent = {}.", userId, newEventDto);
+        EventFullDto event = eventService.create(userId, newEventDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(event);
     }
 
     @GetMapping("/{eventId}")
