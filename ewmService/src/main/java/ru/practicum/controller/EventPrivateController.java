@@ -3,7 +3,6 @@ package ru.practicum.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.dto.event.EventFullDto;
@@ -39,20 +38,13 @@ public class EventPrivateController {
     }
 
     @PostMapping
-    public ResponseEntity<?> addEvent(@PathVariable("userId") @Positive Long userId,
-                                      @Validated(CreateObject.class) @RequestBody NewEventDto newEventDto) {
-
-        if (newEventDto.getParticipantLimit() < 0) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new ErrorResponse("Значение participantLimit не может быть отрицательным."));
-        }
+    @ResponseStatus(HttpStatus.CREATED)
+    public EventFullDto addEvent(@PathVariable("userId") @Positive Long userId,
+                                 @Validated(CreateObject.class) @RequestBody NewEventDto newEventDto) {
 
         log.info("Добавление нового события. POST /users/userId/events userId={}, newEvent = {}.", userId, newEventDto);
-        EventFullDto event = eventService.create(userId, newEventDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(event);
+        return eventService.create(userId, newEventDto);
     }
-
 
     @GetMapping("/{eventId}")
     @ResponseStatus(HttpStatus.OK)
@@ -94,22 +86,6 @@ public class EventPrivateController {
                 " Тело запроса: = {}", userId, eventId, eventRequestStatusUpdateRequest);
 
         return eventService.updateRequestStatus(userId, eventId, eventRequestStatusUpdateRequest);
-    }
-    @ExceptionHandler
-    public ResponseEntity<?> handleException(Exception exception) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponse(exception.getMessage()));
-    }
-
-    static class ErrorResponse {
-        private final String message;
-
-        public ErrorResponse(String message) {
-            this.message = message;
-        }
-
-        public String getMessage() {
-            return message;
-        }
     }
 
 }
