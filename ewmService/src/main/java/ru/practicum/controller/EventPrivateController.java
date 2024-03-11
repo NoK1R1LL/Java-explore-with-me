@@ -45,7 +45,7 @@ public class EventPrivateController {
         if (newEventDto.getParticipantLimit() < 0) {
             return ResponseEntity
                     .badRequest()
-                    .body("Значение participantLimit не может быть отрицательным.");
+                    .body(new ErrorResponse("Значение participantLimit не может быть отрицательным."));
         }
 
         log.info("Добавление нового события. POST /users/userId/events userId={}, newEvent = {}.", userId, newEventDto);
@@ -94,6 +94,22 @@ public class EventPrivateController {
                 " Тело запроса: = {}", userId, eventId, eventRequestStatusUpdateRequest);
 
         return eventService.updateRequestStatus(userId, eventId, eventRequestStatusUpdateRequest);
+    }
+    @ExceptionHandler
+    public ResponseEntity<?> handleException(Exception exception) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponse(exception.getMessage()));
+    }
+
+    static class ErrorResponse {
+        private final String message;
+
+        public ErrorResponse(String message) {
+            this.message = message;
+        }
+
+        public String getMessage() {
+            return message;
+        }
     }
 
 }
