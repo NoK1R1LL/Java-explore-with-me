@@ -42,6 +42,11 @@ public class EventPrivateController {
     public EventFullDto addEvent(@PathVariable("userId") @Positive Long userId,
                                  @Validated(CreateObject.class) @RequestBody NewEventDto newEventDto) {
 
+        // Проверка на отрицательное значение participantLimit
+        if (newEventDto.getParticipantLimit() < 0) {
+            throw new IllegalArgumentException("Значение participantLimit не может быть отрицательным.");
+        }
+
         log.info("Добавление нового события. POST /users/userId/events userId={}, newEvent = {}.", userId, newEventDto);
         return eventService.create(userId, newEventDto);
     }
