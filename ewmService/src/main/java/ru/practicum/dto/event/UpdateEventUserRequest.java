@@ -7,7 +7,7 @@ import lombok.Setter;
 import ru.practicum.model.StateAction;
 import ru.practicum.validation.UpdateObject;
 
-import javax.validation.constraints.PositiveOrZero;
+import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
@@ -25,7 +25,7 @@ public class UpdateEventUserRequest {
     private LocalDateTime eventDate;
     private LocationDto location;
     private Boolean paid;
-    @PositiveOrZero(groups = {UpdateObject.class})
+    @Positive(message = "Значение participantLimit должно быть положительным.", groups = {UpdateObject.class})
     private Integer participantLimit;
     private Boolean requestModeration = true;
     private StateAction stateAction;
