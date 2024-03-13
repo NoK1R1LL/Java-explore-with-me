@@ -116,4 +116,15 @@ public class ErrorHandler {
                 HttpStatus.BAD_REQUEST);
         return apiError;
     }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ApiError handleIllegalArgumentException(IllegalArgumentException ex) {
+        log.error("Ошибка 400 (IllegalArgumentException). {}", ex.getMessage());
+        ApiError apiError = new ApiError(ex.getMessage(),
+                "Некорректные данные в запросе.",
+                HttpStatus.BAD_REQUEST);
+        return apiError;
+    }
+
 }
