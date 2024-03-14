@@ -45,6 +45,8 @@ public class CommentUserController {
     /**
      * Обновление комментария.
      *
+     * PATCH /comments/{comId}/user/{userId}
+     *
      * @param comId            ID комментария.
      * @param userId           ID пользователя, обновляющего комментарий.
      * @param updateCommentDto обновляемый комментарий.
