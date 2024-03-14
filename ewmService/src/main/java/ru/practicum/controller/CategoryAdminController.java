@@ -20,12 +20,24 @@ import javax.validation.constraints.PositiveOrZero;
 public class CategoryAdminController {
     private final CategoryService categoryService;
 
+    /**
+     * Сохранение новой категории в БД.
+     *
+     * @return созданная категория.
+     */
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public CategoryDto addCategory(@Validated(CreateObject.class) @RequestBody CategoryDto categoryDto) {
         log.info("Сохранение категории в БД. POST /admin/categories\t\t{}", categoryDto);
         return categoryService.save(categoryDto);
     }
+
+    /**
+     * Обновление категории в БД.
+     *
+     * @return обновленная категория.
+     */
 
     @PatchMapping("/{catId}")
     @ResponseStatus(HttpStatus.OK)
@@ -34,6 +46,10 @@ public class CategoryAdminController {
         log.info("Обновление категории в БД. PATCH /admin/categories/catId={}, categoryDto={}", catId, categoryDto);
         return categoryService.update(catId, categoryDto);
     }
+
+    /**
+     * Удаление категории из БД.
+     */
 
     @DeleteMapping("/{catId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
