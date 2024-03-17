@@ -36,5 +36,4 @@ public class ApiError {
         this.timestamp = LocalDateTime.now().format(DATE_TIME);
     }
 
-
 }
